@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>당신의 만두에 투표하세요</title>
+  <!-- Pretendard & 잘난체 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ProjectNoonnu/noonfonts_2107@1.1/yg-jalnan.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Pretendard', Arial, sans-serif;
+      background: url('images/만두 배경화면.jpeg') center center / cover no-repeat fixed;
+      min-height: 100vh;
+    }
+    h1 {
+      font-family: 'yg-jalnan', 'Pretendard', sans-serif;
+      color: #fff;
+      font-size: 2.7rem;
+      text-align: center;
+      margin-top: 48px;
+      margin-bottom: 32px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto 64px auto;
+      padding: 0 24px;
+    }
+    .gallery-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255,255,255,0.82);
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+      padding: 18px 10px 14px 10px;
+      transition: box-shadow 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+    .gallery-item:hover {
+      box-shadow: 0 6px 32px rgba(0,0,0,0.16);
+    }
+    .gallery-item img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      background: #f2f2f2;
+      transition: transform 0.2s;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.04);
+    }
+    .caption {
+      font-family: 'yg-jalnan', 'Pretendard', sans-serif;
+      font-size: 1.1rem;
+      color: #333;
+      text-align: center;
+      margin-top: 2px;
+      letter-spacing: 1px;
+    }
+    /* 라이트박스 스타일 */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.82);
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.25s;
+    }
+    .lightbox.active {
+      display: flex;
+    }
+    .lightbox-content {
+      background: #fff;
+      border-radius: 18px;
+      padding: 32px 24px 18px 24px;
+      box-shadow: 0 6px 36px rgba(0,0,0,0.22);
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .lightbox-content img {
+      max-width: 380px;
+      max-height: 55vh;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      object-fit: contain;
+      background: #f2f2f2;
+    }
+    .lightbox-caption {
+      font-family: 'yg-jalnan', 'Pretendard', sans-serif;
+      font-size: 1.16rem;
+      color: #222;
+      text-align: center;
+      margin-bottom: 0;
+      letter-spacing: 1px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      font-size: 2.2rem;
+      color: #666;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover {
+      color: #ff4848;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 600px) {
+      .gallery {
+        gap: 18px;
+      }
+      .gallery-item img {
+        width: 120px;
+        height: 120px;
+      }
+      .lightbox-content {
+        padding: 18px 6px 8px 6px;
+      }
+      .lightbox-content img {
+        max-width: 90vw;
+        max-height: 40vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>당신의 만두에 투표하세요</h1>
+  <div class="gallery">
+    <div class="gallery-item" data-img="images/개극혐만두.jpg" data-caption="개극혐만두">
+      <img src="images/개극혐만두.jpg" alt="개극혐만두">
+      <div class="caption">개극혐만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/그냥 못생긴 만두.jpg" data-caption="그냥 못생긴 만두">
+      <img src="images/그냥 못생긴 만두.jpg" alt="그냥 못생긴 만두">
+      <div class="caption">그냥 못생긴 만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/만두 배경화면.jpeg" data-caption="만두 배경화면">
+      <img src="images/만두 배경화면.jpeg" alt="만두 배경화면">
+      <div class="caption">만두 배경화면</div>
+    </div>
+    <div class="gallery-item" data-img="images/뽀로로만두.jpg" data-caption="뽀로로만두">
+      <img src="images/뽀로로만두.jpg" alt="뽀로로만두">
+      <div class="caption">뽀로로만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/쇼핑만두.jpg" data-caption="쇼핑만두">
+      <img src="images/쇼핑만두.jpg" alt="쇼핑만두">
+      <div class="caption">쇼핑만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/아픈만두.jpg" data-caption="아픈만두">
+      <img src="images/아픈만두.jpg" alt="아픈만두">
+      <div class="caption">아픈만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/연지곤지만두.jpg" data-caption="연지곤지만두">
+      <img src="images/연지곤지만두.jpg" alt="연지곤지만두">
+      <div class="caption">연지곤지만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/오타마톤만두.jpg" data-caption="오타마톤만두">
+      <img src="images/오타마톤만두.jpg" alt="오타마톤만두">
+      <div class="caption">오타마톤만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/인형만두.jpg" data-caption="인형만두">
+      <img src="images/인형만두.jpg" alt="인형만두">
+      <div class="caption">인형만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/콜라만두.jpg" data-caption="콜라만두">
+      <img src="images/콜라만두.jpg" alt="콜라만두">
+      <div class="caption">콜라만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/쾌걸만두.jpg" data-caption="쾌걸만두">
+      <img src="images/쾌걸만두.jpg" alt="쾌걸만두">
+      <div class="caption">쾌걸만두</div>
+    </div>
+    <div class="gallery-item" data-img="images/통화만두.jpg" data-caption="통화만두">
+      <img src="images/통화만두.jpg" alt="통화만두">
+      <div class="caption">통화만두</div>
+    </div>
+  </div>
+
+  <!-- 라이트박스 -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close" aria-label="닫기">&times;</button>
+      <img src="" alt="" id="lightbox-img">
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <script>
+    // 갤러리 클릭 시 라이트박스 표시
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.getElementById('lightbox-img').src = this.dataset.img;
+        document.getElementById('lightbox-caption').textContent = this.dataset.caption;
+        document.getElementById('lightbox').classList.add('active');
+      });
+    });
+    // 라이트박스 닫기
+    document.getElementById('lightbox-close').onclick = function() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.getElementById('lightbox-img').src = '';
+    };
+    // 라이트박스 바깥 클릭 시 닫기
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+        document.getElementById('lightbox-img').src = '';
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === "Escape") {
+        document.getElementById('lightbox').classList.remove('active');
+        document.getElementById('lightbox-img').src = '';
+      }
+    });
+  </script>
+</body>
+</html>
