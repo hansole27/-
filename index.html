@@ -67,6 +67,29 @@
       margin-top: 2px;
       letter-spacing: 1px;
     }
+    .vote-btn {
+      margin: 10px 0 3px 0;
+      padding: 7px 22px;
+      font-size: 1rem;
+      border-radius: 24px;
+      border: none;
+      background: #ffce34;
+      color: #222;
+      font-family: 'yg-jalnan', 'Pretendard', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.18s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .vote-btn:hover {
+      background: #ffd966;
+    }
+    .vote-count {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ff4848;
+      margin-bottom: 2px;
+    }
     /* 라이트박스 스타일 */
     .lightbox {
       display: none;
@@ -147,55 +170,8 @@
 </head>
 <body>
   <h1>당신의 만두에 투표하세요</h1>
-  <div class="gallery">
-    <div class="gallery-item" data-img="images/개극혐만두.jpg" data-caption="개극혐만두">
-      <img src="images/개극혐만두.jpg" alt="개극혐만두">
-      <div class="caption">개극혐만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/그냥 못생긴 만두.jpg" data-caption="그냥 못생긴 만두">
-      <img src="images/그냥 못생긴 만두.jpg" alt="그냥 못생긴 만두">
-      <div class="caption">그냥 못생긴 만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/만두 배경화면.jpeg" data-caption="만두 배경화면">
-      <img src="images/만두 배경화면.jpeg" alt="만두 배경화면">
-      <div class="caption">만두 배경화면</div>
-    </div>
-    <div class="gallery-item" data-img="images/뽀로로만두.jpg" data-caption="뽀로로만두">
-      <img src="images/뽀로로만두.jpg" alt="뽀로로만두">
-      <div class="caption">뽀로로만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/쇼핑만두.jpg" data-caption="쇼핑만두">
-      <img src="images/쇼핑만두.jpg" alt="쇼핑만두">
-      <div class="caption">쇼핑만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/아픈만두.jpg" data-caption="아픈만두">
-      <img src="images/아픈만두.jpg" alt="아픈만두">
-      <div class="caption">아픈만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/연지곤지만두.jpg" data-caption="연지곤지만두">
-      <img src="images/연지곤지만두.jpg" alt="연지곤지만두">
-      <div class="caption">연지곤지만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/오타마톤만두.jpg" data-caption="오타마톤만두">
-      <img src="images/오타마톤만두.jpg" alt="오타마톤만두">
-      <div class="caption">오타마톤만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/인형만두.jpg" data-caption="인형만두">
-      <img src="images/인형만두.jpg" alt="인형만두">
-      <div class="caption">인형만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/콜라만두.jpg" data-caption="콜라만두">
-      <img src="images/콜라만두.jpg" alt="콜라만두">
-      <div class="caption">콜라만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/쾌걸만두.jpg" data-caption="쾌걸만두">
-      <img src="images/쾌걸만두.jpg" alt="쾌걸만두">
-      <div class="caption">쾌걸만두</div>
-    </div>
-    <div class="gallery-item" data-img="images/통화만두.jpg" data-caption="통화만두">
-      <img src="images/통화만두.jpg" alt="통화만두">
-      <div class="caption">통화만두</div>
-    </div>
+  <div class="gallery" id="gallery">
+    <!-- 사진 목록은 JS에서 생성 -->
   </div>
 
   <!-- 라이트박스 -->
@@ -208,14 +184,52 @@
   </div>
 
   <script>
-    // 갤러리 클릭 시 라이트박스 표시
-    document.querySelectorAll('.gallery-item').forEach(item => {
-      item.addEventListener('click', function() {
-        document.getElementById('lightbox-img').src = this.dataset.img;
-        document.getElementById('lightbox-caption').textContent = this.dataset.caption;
+    // 사진 목록 (만두 배경화면은 제외)
+    const photos = [
+      { file: "개극혐만두.jpg", title: "개극혐만두" },
+      { file: "그냥 못생긴 만두.jpg", title: "그냥 못생긴 만두" },
+      { file: "뽀로로만두.jpg", title: "뽀로로만두" },
+      { file: "쇼핑만두.jpg", title: "쇼핑만두" },
+      { file: "아픈만두.jpg", title: "아픈만두" },
+      { file: "연지곤지만두.jpg", title: "연지곤지만두" },
+      { file: "오타마톤만두.jpg", title: "오타마톤만두" },
+      { file: "인형만두.jpg", title: "인형만두" },
+      { file: "콜라만두.jpg", title: "콜라만두" },
+      { file: "쾌걸만두.jpg", title: "쾌걸만두" },
+      { file: "통화만두.jpg", title: "통화만두" }
+    ];
+
+    // 투표수 배열
+    let votes = Array(photos.length).fill(0);
+
+    // 갤러리 생성
+    const gallery = document.getElementById('gallery');
+    photos.forEach((photo, idx) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.innerHTML = `
+        <img src="images/${photo.file}" alt="${photo.title}">
+        <div class="caption">${photo.title}</div>
+        <button class="vote-btn" onclick="vote(${idx}, event)">투표</button>
+        <div class="vote-count" id="vote-count-${idx}">득표수: 0</div>
+      `;
+      // 라이트박스 기능
+      item.querySelector('img').onclick = function(e) {
+        e.stopPropagation();
+        document.getElementById('lightbox-img').src = `images/${photo.file}`;
+        document.getElementById('lightbox-caption').textContent = photo.title;
         document.getElementById('lightbox').classList.add('active');
-      });
+      };
+      gallery.appendChild(item);
     });
+
+    // 투표 함수
+    window.vote = function(idx, e) {
+      votes[idx]++;
+      document.getElementById('vote-count-' + idx).textContent = `득표수: ${votes[idx]}`;
+      e.stopPropagation();
+    };
+
     // 라이트박스 닫기
     document.getElementById('lightbox-close').onclick = function() {
       document.getElementById('lightbox').classList.remove('active');
